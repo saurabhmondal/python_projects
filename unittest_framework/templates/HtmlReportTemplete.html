@@ -1,0 +1,73 @@
+<table class="blueTable">
+    <tbody>
+    <tr>
+        <th colspan="6" style="background: #D0E4F5;"><center>TEST SUMMERY</center></th>
+    </tr>
+    <tr>
+        <td colspan="2">Application Name: {{overallData.APPName}}</td>
+        <td colspan="4">Module Name: {{overallData.ModuleName}}</td>
+    </tr>
+    <tr>
+        <td colspan="2">Start Time: {{overallData.StartTime}}</td>
+        <td colspan="2">End Time: {{overallData.EndTime}}</td>
+        <td colspan="2">End Time: {{overallData.EndTime-overallData.StartTime}}</td>
+    </tr>
+    <tr>
+        <td>No. of Test Scenarios: {{TableData|length}}</td>
+        <td>Passed: {{round(overallData.PassedPercent,2)}} %</td>
+        <td colspan="2">Failed: {{round(overallData.FailedPercent,2)}} %</td>
+        <td colspan="2">Error: {{round(overallData.ErrorPercent,2)}} %</td>
+    </tr>
+    <tr>
+        <td colspan="2">Environment Type: {{overallData.Environment}}</td>
+        <td colspan="2">Branch Name: {{overallData.Branch}}</td>
+        <td colspan="2">Reference test location: <a href={{overallData.TestScriptLocation}}>QA Script {{overallData.Branch}} Branch</a></td>
+    </tr>
+    <tr>
+    <th colspan="6" style="background: #D0E4F5;"><center>Test Scenarios Execution Summary </center></th>
+    </tr>
+    <tr>
+        {% for col in header %}
+        <th>{{col}}</th>
+        {% endfor %}
+    </tr>
+    <tr>
+        {% for row in TableData %}
+        <tr>
+            {% for cell in row %}
+            {% if cell=="PASS" %}
+                <td><font color="green">{{cell}}</font></td>
+            {% elif cell=="FAIL" %}
+                <td><font color="red">{{cell}}</font></td>
+            {% elif cell=="ERROR" %}
+                <td><font color="pink">{{cell}}</font></td>
+            {% else %}
+                <td>{{cell}}</td>
+            {% endif %}
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </tr>
+    </tbody>
+</table>
+<!-- DIVTable.com -->
+<style>
+    table.bluetable{
+    border: 1px solid #1C6EA4;
+    background-color: #EEEEEE;
+    width: 100%
+    lext-align: left;
+    border-collapse: collapse;
+    }
+    table.blueTable td,table.blueTable th{
+    border: 1px solid #AAAAAA;
+    padding: 3px 2px;
+    }
+    table.blueTable thead{
+    background: #1C6EA4;
+    background: -moz-linear-gradient(top,#5592bb 0%, #327cad 66%, #1C6EA4 100%);
+    background: -webkit-linear-gradient(top,#5592bb 0%, #327cad 66%, #1C6EA4 100%);
+    background: linear-gradient(top,#5592bb 0%, #327cad 66%, #1C6EA4 100%);
+    background: 2px solid #444444;
+    }
+</style>

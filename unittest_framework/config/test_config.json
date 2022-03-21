@@ -1,0 +1,8 @@
+{
+  "env_config": "config/dev_config.json",
+  "log_config": "config/log_config.json",
+  "log_file": "testLogs/log.log",
+  "app_name": "UNT",
+  "report_file": "testReports/report.html",
+  "report_template": "templates/HtmlReportTemplete.html"
+}
