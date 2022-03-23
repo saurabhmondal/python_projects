@@ -1,0 +1,52 @@
+{
+  "pivot_table_conf": {
+    "columns": {
+      "group_on_cols": "EVENT_ID",
+      "groupby_col": "DECISION",
+      "list_of_columns": [
+          "AMOUNT",
+          "ACCIDENT"
+      ]
+    },
+    "custom_header": {
+      "color": "FFFF00",
+      "isBold": true
+    },
+    "format_diff": {
+      "color": {
+        "increase": "35FC03",
+        "decrease": "03FCF4"
+      },
+      "tolerance": 0.1
+    },
+    "gap_between_two_pivots": {
+      "horizontal": 5,
+      "vertical": 7
+    },
+    "show_yes_percent": true
+  },
+  "input_output_sheet_data": {
+    "output": {
+      "filename": "C:\\Users\\Ssaurabh\\PycharmProjects\\PivotTableTest\\generatedPivot\\Comparison_new.xlsx",
+      "sheetname": "pivot_table",
+      "remove_output_if_exist": true
+    },
+    "input": [
+      {
+        "filename": "C:\\Users\\Ssaurabh\\PycharmProjects\\PivotTableTest\\learning_docvrs_old.xlsx",
+        "sheetname": "Sheet1",
+        "alias": "old"
+      },
+      {
+        "filename": "C:\\Users\\Ssaurabh\\PycharmProjects\\PivotTableTest\\learning_docvrs_new.xlsx",
+        "sheetname": "Sheet1",
+        "alias": "new"
+      },
+      {
+        "filename": "C:\\Users\\Ssaurabh\\PycharmProjects\\PivotTableTest\\learning_docvrs_new_1.xlsx",
+        "sheetname": "Sheet1",
+        "alias": "new_1"
+      }
+    ]
+  }
+}
