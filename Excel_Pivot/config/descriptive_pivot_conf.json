@@ -1,12 +1,12 @@
 {
   "pivot_table_conf": {
     "columns": {
-      "group_on_cols": "EVENT_ID",
-      "groupby_col": "DECISION",
-      "list_of_columns": [
-          "AMOUNT",
-          "ACCIDENT"
-      ]
+      "exclude_columns": [],
+      "values_list": ["EVENT_ID"],
+      "columns_list": ["DECISION"],
+      "filter_list": [],
+      "rows_list": ["AMOUNT",
+          "ACCIDENT"]
     },
     "custom_header": {
       "color": "FFFF00",
@@ -21,7 +21,7 @@
     },
     "gap_between_two_pivots": {
       "horizontal": 5,
-      "vertical": 7
+      "vertical": 8
     },
     "show_yes_percent": true
   },
@@ -41,11 +41,6 @@
         "filename": "C:\\Users\\Ssaurabh\\PycharmProjects\\PivotTableTest\\learning_docvrs_new.xlsx",
         "sheetname": "Sheet1",
         "alias": "new"
-      },
-      {
-        "filename": "C:\\Users\\Ssaurabh\\PycharmProjects\\PivotTableTest\\learning_docvrs_new_1.xlsx",
-        "sheetname": "Sheet1",
-        "alias": "new_1"
       }
     ]
   }

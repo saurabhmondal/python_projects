@@ -1,12 +1,25 @@
 import json
 import os,sys
 
+
 def get_excel_col_index(num):
+    '''Excepts any positive integer as input and return excel column name equivalent
+    input and output mapping as below
+    1-->A, 2-->B,25-->Z,26-->AA
+    '''
     threshold=(ord("Z")-ord("A")+1)
-    if int(num)<=threshold:
-        return chr(num + ord("A")-1)
-    else:
-        return get_excel_col_index(int(num/threshold))+get_excel_col_index(num%threshold)
+    rem=num%threshold
+    if num<=threshold:
+        if rem==0:
+            return "Z"
+        else:
+            return chr(ord("A")+rem-1)
+    div=int(num/threshold)
+    if div>=1:
+        if rem==0:
+            return get_excel_col_index(div-1)+get_excel_col_index(rem)
+        else:
+            return get_excel_col_index(div) + get_excel_col_index(rem)
 
 def create_folder(file_path):
     if sys.platform=="win32":
