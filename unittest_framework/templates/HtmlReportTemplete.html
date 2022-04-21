@@ -1,73 +1,276 @@
-<table class="blueTable">
-    <tbody>
-    <tr>
-        <th colspan="6" style="background: #D0E4F5;"><center>TEST SUMMERY</center></th>
-    </tr>
-    <tr>
-        <td colspan="2">Application Name: {{overallData.APPName}}</td>
-        <td colspan="4">Module Name: {{overallData.ModuleName}}</td>
-    </tr>
-    <tr>
-        <td colspan="2">Start Time: {{overallData.StartTime}}</td>
-        <td colspan="2">End Time: {{overallData.EndTime}}</td>
-        <td colspan="2">End Time: {{overallData.EndTime-overallData.StartTime}}</td>
-    </tr>
-    <tr>
-        <td>No. of Test Scenarios: {{TableData|length}}</td>
-        <td>Passed: {{round(overallData.PassedPercent,2)}} %</td>
-        <td colspan="2">Failed: {{round(overallData.FailedPercent,2)}} %</td>
-        <td colspan="2">Error: {{round(overallData.ErrorPercent,2)}} %</td>
-    </tr>
-    <tr>
-        <td colspan="2">Environment Type: {{overallData.Environment}}</td>
-        <td colspan="2">Branch Name: {{overallData.Branch}}</td>
-        <td colspan="2">Reference test location: <a href={{overallData.TestScriptLocation}}>QA Script {{overallData.Branch}} Branch</a></td>
-    </tr>
-    <tr>
-    <th colspan="6" style="background: #D0E4F5;"><center>Test Scenarios Execution Summary </center></th>
-    </tr>
-    <tr>
-        {% for col in header %}
-        <th>{{col}}</th>
-        {% endfor %}
-    </tr>
-    <tr>
-        {% for row in TableData %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+    /* Generic and misc styles */
+body {
+    font-family: Helvetica, sans-serif;
+    font-size: 0.8em;
+    color: black;
+    padding: 6px;
+    background: bisque;
+    border-spacing: 1px;
+    border: 2ex;
+}
+
+table, td, th {
+    border: 1px solid;
+    border-collapse: collapse;
+    background: transparent;
+    text-align: left;
+  }
+
+  table {
+    border-collapse: collapse;
+    background: transparent;
+  }
+  table th {
+    text-align: center;
+    letter-spacing: 0.1em;
+    background-color: burlywood;
+    height: 2em;
+}
+.summery {
+    border: 1px solid #ccc;
+    background: transparent;
+    padding: 0.1em 0.3em;
+    height: 1.2em;
+    background-color: gainsboro;
+}
+.summery th, .summery td {
+    background: transparent;
+    height: 1.2em;
+    border: none;
+    text-align: left;
+}
+.odd {
+    background: linear-gradient(#eee 1px, #ddd 1px, #ccc calc(100% - 1px), #999 calc(100% - 1px));
+  }
+
+  .even {
+    background: linear-gradient(#eee 1px, #bbb 1px, #aaa calc(100% - 1px), #999 calc(100% - 1px));
+  }
+  #myPlot{
+    width:60%;
+    max-width:500px;
+    height: 50%;
+    border: 1px solid #ccc;;
+  }
+  #tabs {
+    width: 600px;
+    margin: auto;
+    position:absolute;
+
+  }
+  #tabs > ul{
+    list-style-type: None;
+    display: flex;
+  }
+
+  #tabs > ul > li > a {
+    display: block;
+    height: 30px;
+    line-height: 30px;
+    margin-right: 2px;
+    background: #A2A2A2;
+    color: #CECECE;
+    text-decoration: none;
+    padding: 0 15px;
+    border-radius: 3px 3px 0 0;
+    }
+
+  #tabs > div {
+    padding: 15px;
+    background: #EAEAEA;
+    transition: opacity 200ms linear;
+  }
+  #tabs .active{
+    color: #333;
+    background: #EAEAEA;
+  }
+  #tabs .hidden{
+    display: none;
+  }
+  #tabs .visible{
+    display: block;
+  }
+  #tabs .visibllyhidden{
+    opacity: 0;
+  }
+
+</style>
+
+</head>
+<body>
+    <h1>Test Suite: {{overallData.ModuleName}} for Application {{overallData.APPName}}</h1>
+    <h2>Summary Information</h2>
+    <table class="summery">
         <tr>
+            <th>Status:</th>
+            <td>All passed</td>
+        </tr>
+        <tr>
+            <th>Start Time:</th>
+            <td>{{overallData.StartTime}}</td>
+        </tr>
+        <tr>
+            <th>End Time:</th>
+            <td>{{overallData.EndTime}}</td>
+        </tr>
+        <tr>
+            <th>Elapsed Time:</th>
+            <td>{{overallData.EndTime-overallData.StartTime}}</td>
+        </tr>
+        <tr>
+            <th>Test Environment:</th>
+            <td>{{overallData.Environment}}</td>
+        </tr>
+    </table>
+
+<div id="tabs">
+		<ul>
+			<li><a href="#div-statistics" class="active">Statitics</a></li>
+			<li><a href="#div-deatiled">Detailed Report</a></li>
+		</ul>
+        <div id="div-statistics" class="visible">
+            <h2>Statistics</h2>
+        </div>
+        <div id="div-deatiled" class="hidden">
+            <h2>Detailed Test report</h2>
+            <table id="deatiled">
+                <tbody>
+                <tr>
+					{% for col in header %}
+					<th>{{col}}</th>
+					{% endfor %}
+				</tr>
+		<tr>
+        {% for row in TableData %}
+		<tr>
             {% for cell in row %}
-            {% if cell=="PASS" %}
-                <td><font color="green">{{cell}}</font></td>
-            {% elif cell=="FAIL" %}
-                <td><font color="red">{{cell}}</font></td>
-            {% elif cell=="ERROR" %}
-                <td><font color="pink">{{cell}}</font></td>
-            {% else %}
                 <td>{{cell}}</td>
-            {% endif %}
             {% endfor %}
         </tr>
         {% endfor %}
     </tr>
-    </tbody>
-</table>
-<!-- DIVTable.com -->
-<style>
-    table.bluetable{
-    border: 1px solid #1C6EA4;
-    background-color: #EEEEEE;
-    width: 100%
-    lext-align: left;
-    border-collapse: collapse;
+                </tbody>
+            </table>
+        </div>
+    </div>
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script>
+    let failCount=0;
+    let passCount=0;
+    let errorCount=0;
+    let rowCount=0;
+    // getting status node
+    const statusNode=document.querySelectorAll('.summery tr td')[0];
+    document.querySelectorAll('#deatiled tbody tr td').forEach(row=>{
+        if (rowCount%2==0){
+            row.parentNode.className='even';
+        }
+        else{
+            row.parentNode.className='odd';
+        }
+        if (row.innerHTML=='PASS'){
+            row.style.color="green";
+            passCount++;
+
+        }
+        else if (row.innerHTML=='FAIL'){
+            row.style.color="red";
+            failCount++;
+        }
+        else if (row.innerHTML=='ERROR'){
+            row.style.color="blueviolet";
+            errorCount++;
+        }
+        rowCount++;
+    });
+    // setting status node color and content
+    let status="All testcase passed";
+    statusNode.style.color="green";
+    if (failCount>0){
+        status=`${failCount} testcases failed`;
+        statusNode.style.color="red";
     }
-    table.blueTable td,table.blueTable th{
-    border: 1px solid #AAAAAA;
-    padding: 3px 2px;
+    if (errorCount>0){
+        if (status!="All testcase passed")
+        {
+            status=`${status} & ${errorCount} testcases failed due to runtime exception`;
+        }
+        else{
+            status=`${errorCount} testcases failed due to runtime exception`;
+        }
+
+        statusNode.style.color="purple";
     }
-    table.blueTable thead{
-    background: #1C6EA4;
-    background: -moz-linear-gradient(top,#5592bb 0%, #327cad 66%, #1C6EA4 100%);
-    background: -webkit-linear-gradient(top,#5592bb 0%, #327cad 66%, #1C6EA4 100%);
-    background: linear-gradient(top,#5592bb 0%, #327cad 66%, #1C6EA4 100%);
-    background: 2px solid #444444;
+    statusNode.innerText=status;
+
+    var statusName = ["Total Testcases","Pass", "Fail", "Error"];
+    var statusValue = [(passCount+failCount+errorCount) ,passCount, failCount, errorCount];
+    // Getting hsub header item with text 'Statistics'
+    const stat_tag=document.evaluate("//h2[text()='Statistics']", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+    // Create table and table heading
+    const tabData=createTable([statusName,statusValue],"By Status","satistics-table");
+    // Attach heading and table to subheader item
+    stat_tag.parentNode.append(tabData[0]);
+    stat_tag.parentNode.append(tabData[1]);
+    // create PLot
+    let ployDiv=document.createElement('div');
+    ployDiv.id="myPlot";
+    stat_tag.parentNode.append(ployDiv);
+    var layout = {title:"Pie Chart: Test Case Status"};
+    var data = [{labels:statusName.slice(1,statusName.length), values:statusValue.slice(1,statusValue.length), type:"pie"}];
+    Plotly.newPlot("myPlot", data, layout);
+    tabFunctionality();
+    function createTable(tableData,tabHeading,tabName){
+        let h3Tab=document.createElement('h3');
+        h3Tab.innerText=tabHeading;
+        let tabElem=document.createElement('table');
+        tabElem.className=tabName;
+        let rowCount=0;
+        tableData.forEach(dataRow=>{
+            if (rowCount==0){
+                let statHeader=document.createElement('tr')
+                dataRow.forEach(status=>{
+                    let th=document.createElement('th');
+                    th.innerText=status;
+                    statHeader.appendChild(th);
+                });
+                tabElem.appendChild(statHeader);
+            }
+            else{
+                let statDataRow=document.createElement('tr')
+                dataRow.forEach(data=>{
+                    let td=document.createElement('td');
+                    td.innerText=data;
+                    statDataRow.appendChild(td);
+                });
+                tabElem.appendChild(statDataRow);
+            }
+            rowCount++;
+        });
+        return [h3Tab, tabElem];
     }
-</style>
+    function tabFunctionality(){
+        document.querySelectorAll('#tabs > ul > li > a').forEach(tab=>{
+            tab.addEventListener('click',function(event){
+               event.preventDefault();
+               const href=this.getAttribute('href');
+               document.querySelector('#tabs .active').removeAttribute('class');
+               this.className="active";
+               document.querySelector('#tabs .visible').className='hidden';
+               document.querySelector(href).className='visible';
+            });
+           });
+    }
+
+</script>
+
+</body>
+</html>
